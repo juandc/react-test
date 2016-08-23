@@ -15,13 +15,13 @@ gulp.task('styles', function () {
 })
 
 gulp.task('assets', function () {
-  return gulp.src('./assets/assets/')
-    .pipe(gulp.dest('./public/'))
+  return gulp.src('./assets/assets/**/*')
+    .pipe(gulp.dest('./public/assets/'))
 })
 
 gulp.task('src', function () {
   browserify('./src/index.js')
-    .transform(babel)
+    .transform(babel, {presets: ["es2015", "react"]})
     .bundle()
     .pipe(source('index.js'))
     .pipe(rename('app.js'))
