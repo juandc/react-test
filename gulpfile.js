@@ -32,6 +32,7 @@ gulp.task('watch', function () {
   gulp.watch('./assets/styles/*.styl', ['styles'])
   gulp.watch('./assets/assets/*', ['assets'])
   gulp.watch('./src/*', ['src'])
+  gulp.watch('./src/**', ['src'])
 })
 
 gulp.task('default', ['styles', 'assets', 'src', 'watch'])

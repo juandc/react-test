@@ -1,7 +1,15 @@
-// var React = require('react'), ReactDOM = require('react-dom')
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import allReducers from './reducers/index'
+import App from './components/App'
 
-ReactDOM.render(<h3>Hey!</h3>, document.getElementById('container') )
+const store = createStore(allReducers)
 
-console.log('Que onda gente!')
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('container')
+)
