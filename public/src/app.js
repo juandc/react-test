@@ -22223,14 +22223,32 @@ module.exports = function symbolObservablePonyfill(root) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var selectUser = exports.selectUser = function selectUser(user) {
+  console.log('You clicked on user: ' + user.first);
+  return {
+    type: 'USER_SELECTED',
+    payload: user
+  };
+};
+
+},{}],196:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _userList = require('../containers/user-list.js');
+var _userList = require('../containers/user-list');
 
 var _userList2 = _interopRequireDefault(_userList);
+
+var _userDetail = require('../containers/user-detail');
+
+var _userDetail2 = _interopRequireDefault(_userDetail);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22249,13 +22267,92 @@ var App = function App() {
       'h2',
       null,
       'User details:'
-    )
+    ),
+    _react2.default.createElement(_userDetail2.default, null)
   );
 };
 
 exports.default = App;
 
-},{"../containers/user-list.js":196,"react":185}],196:[function(require,module,exports){
+},{"../containers/user-detail":197,"../containers/user-list":198,"react":185}],197:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = require('react-redux');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var UserDetail = function (_Component) {
+  _inherits(UserDetail, _Component);
+
+  function UserDetail() {
+    _classCallCheck(this, UserDetail);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserDetail).apply(this, arguments));
+  }
+
+  _createClass(UserDetail, [{
+    key: 'render',
+    value: function render() {
+      if (!this.props.user) return _react2.default.createElement(
+        'h5',
+        null,
+        'Select a user!'
+      );
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement('img', { src: this.props.user.thumbnail, alt: this.user.user.first + ' image', title: this.user.user.first + ' image' }),
+        _react2.default.createElement(
+          'h2',
+          null,
+          this.props.user.first,
+          ' ',
+          this.props.user.last
+        ),
+        _react2.default.createElement(
+          'h4',
+          null,
+          'Age: ',
+          this.props.user.age
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          'Description: ',
+          this.props.user.description
+        )
+      );
+    }
+  }]);
+
+  return UserDetail;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    user: state.activeUser
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(UserDetail);
+
+},{"react":185,"react-redux":38}],198:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22271,6 +22368,8 @@ var _react2 = _interopRequireDefault(_react);
 var _redux = require('redux');
 
 var _reactRedux = require('react-redux');
+
+var _index = require('../actions/index');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -22292,15 +22391,22 @@ var UserList = function (_Component) {
   _createClass(UserList, [{
     key: 'createListItems',
     value: function createListItems() {
+      var _this2 = this;
+
       return this.props.users.map(function (user) {
         return _react2.default.createElement(
           'li',
-          { key: user.id },
-          ' ',
-          user.first,
-          ' ',
-          user.last,
-          ' '
+          { onClick: function onClick() {
+              return _this2.props.selectUser(user);
+            }, key: user.id },
+          _react2.default.createElement('span', { className: 'fa fa-user' }),
+          _react2.default.createElement(
+            'a',
+            null,
+            user.first,
+            ' ',
+            user.last
+          )
         );
       });
     }
@@ -22324,9 +22430,15 @@ function mapStateToProps(state) {
   };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(UserList);
+function matchDispatchToProps(dispatch) {
+  return (0, _redux.bindActionCreators)({
+    selectUser: _index.selectUser
+  }, dispatch);
+}
 
-},{"react":185,"react-redux":38,"redux":191}],197:[function(require,module,exports){
+exports.default = (0, _reactRedux.connect)(mapStateToProps, matchDispatchToProps)(UserList);
+
+},{"../actions/index":195,"react":185,"react-redux":38,"redux":191}],199:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -22359,7 +22471,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _react2.default.createElement(_App2.default, null)
 ), document.getElementById('container'));
 
-},{"./components/App":195,"./reducers/index":198,"react":185,"react-dom":35,"react-redux":38,"redux":191}],198:[function(require,module,exports){
+},{"./components/App":196,"./reducers/index":200,"react":185,"react-dom":35,"react-redux":38,"redux":191}],200:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -22372,15 +22484,39 @@ var _reducerUsers = require('./reducer-users');
 
 var _reducerUsers2 = _interopRequireDefault(_reducerUsers);
 
+var _reducerActiveUser = require('./reducer-active-user');
+
+var _reducerActiveUser2 = _interopRequireDefault(_reducerActiveUser);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var allReducers = (0, _redux.combineReducers)({
-  users: _reducerUsers2.default
+  users: _reducerUsers2.default,
+  activeUser: _reducerActiveUser2.default
 });
 
 exports.default = allReducers;
 
-},{"./reducer-users":199,"redux":191}],199:[function(require,module,exports){
+},{"./reducer-active-user":201,"./reducer-users":202,"redux":191}],201:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function () {
+  var state = arguments.length <= 0 || arguments[0] === undefined ? null : arguments[0];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case 'USER_SELECTED':
+      return action.payload;
+      break;
+  }
+  return state;
+};
+
+},{}],202:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -22412,4 +22548,4 @@ exports.default = function () {
   }];
 };
 
-},{}]},{},[197]);
+},{}]},{},[199]);

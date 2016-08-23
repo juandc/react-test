@@ -6,15 +6,34 @@ html
 body
   background-color #f5f5f8
   border-radius 3px
+  display flex
   fixed top 10px bottom 10px left 5px right 5px
   font-family 'Open sans', Arial, "Helvetica Neue", Helvetica, sans-serif
   margin 0 auto
   max-width 1024px
   overflow-x hidden
-  overflow-y auto
+  overflow-y scroll
   padding 10px
   width 85%
 
 #container
+  position relative
+  width 99%
+  margin auto
+  max-width 500px
+  padding-bottom 50%
   h2
     color #19C2F0
+  ul
+    list-style none
+    padding-left 10px
+    li
+      cursor pointer
+      padding 5px 0
+      margin 5px 0
+      &:hover
+        a
+          text-decoration underline
+      span
+        margin-right 10px
+        color #1979F0
