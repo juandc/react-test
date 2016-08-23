@@ -22317,7 +22317,7 @@ var UserDetail = function (_Component) {
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement('img', { src: this.props.user.thumbnail, alt: this.user.user.first + ' image', title: this.user.user.first + ' image' }),
+        _react2.default.createElement('img', { src: this.props.user.thumbnail, alt: this.props.user.first + ' image', title: this.props.user.first + ' image', height: '50' }),
         _react2.default.createElement(
           'h2',
           null,
