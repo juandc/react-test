@@ -22300,13 +22300,141 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var UserDetail = function (_Component) {
   _inherits(UserDetail, _Component);
 
-  function UserDetail() {
+  function UserDetail(props) {
     _classCallCheck(this, UserDetail);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(UserDetail).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(UserDetail).call(this, props));
+
+    _this.state = { isEditing: false, isDeleted: false };
+    _this.edit = _this.edit.bind(_this);
+    _this.remove = _this.remove.bind(_this);
+    _this.save = _this.save.bind(_this);
+    return _this;
   }
 
   _createClass(UserDetail, [{
+    key: 'edit',
+    value: function edit() {
+      this.setState({ isEditing: true });
+    }
+  }, {
+    key: 'remove',
+    value: function remove() {
+      this.setState({ isDeleted: false });
+    }
+  }, {
+    key: 'save',
+    value: function save() {
+      var newFirst = this.refs.newFirst.value,
+          newLast = this.refs.newLast.value,
+          newImg = this.refs.newImg.value,
+          newDes = this.refs.newDes.value;
+      this.setState({ isEditing: false });
+    }
+  }, {
+    key: 'renderNormal',
+    value: function renderNormal() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'userDetail' },
+        _react2.default.createElement(
+          'div',
+          { className: 'presentation' },
+          _react2.default.createElement('img', { className: 'img', src: this.props.user.thumbnail, alt: this.props.user.first + this.props.user.last + ' Image', title: this.props.user.first + this.props.user.last + ' Image' }),
+          _react2.default.createElement(
+            'div',
+            { className: 'titles' },
+            _react2.default.createElement(
+              'h4',
+              { className: 'name' },
+              this.props.user.first,
+              ' ',
+              this.props.user.last
+            ),
+            _react2.default.createElement(
+              'h5',
+              { className: 'age' },
+              this.props.user.age,
+              ' años'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'p',
+          null,
+          _react2.default.createElement(
+            'span',
+            null,
+            'Description: '
+          ),
+          this.props.user.description
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'buttons actions' },
+          _react2.default.createElement(
+            'a',
+            { onClick: this.edit, className: 'btn edit' },
+            'Edit'
+          ),
+          _react2.default.createElement(
+            'a',
+            { onClick: this.remove, className: 'btn delete' },
+            'Delete'
+          )
+        )
+      );
+    }
+  }, {
+    key: 'renderForm',
+    value: function renderForm() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'userDetail' },
+        _react2.default.createElement(
+          'div',
+          { className: 'userForm' },
+          _react2.default.createElement(
+            'div',
+            null,
+            _react2.default.createElement(
+              'label',
+              null,
+              'First name:'
+            ),
+            _react2.default.createElement('input', { ref: 'newFirst', type: 'text', defaultValue: this.props.user.first }),
+            _react2.default.createElement(
+              'label',
+              null,
+              'Last name:'
+            ),
+            _react2.default.createElement('input', { ref: 'newLast', type: 'text', defaultValue: this.props.user.last }),
+            _react2.default.createElement(
+              'label',
+              null,
+              'Image URL:'
+            ),
+            _react2.default.createElement('input', { ref: 'newImg', type: 'url', defaultValue: this.props.user.thumbnail }),
+            _react2.default.createElement(
+              'label',
+              null,
+              'Description:'
+            ),
+            _react2.default.createElement('textarea', { ref: 'newDes', type: 'url', defaultValue: this.props.user.description })
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: 'buttons actions' },
+            _react2.default.createElement(
+              'a',
+              { onClick: this.save, className: 'btn' },
+              'Save'
+            )
+          )
+        )
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
       if (!this.props.user) return _react2.default.createElement(
@@ -22314,30 +22442,7 @@ var UserDetail = function (_Component) {
         null,
         'Select a user!'
       );
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement('img', { src: this.props.user.thumbnail, alt: this.props.user.first + ' image', title: this.props.user.first + ' image', height: '50' }),
-        _react2.default.createElement(
-          'h2',
-          null,
-          this.props.user.first,
-          ' ',
-          this.props.user.last
-        ),
-        _react2.default.createElement(
-          'h4',
-          null,
-          'Age: ',
-          this.props.user.age
-        ),
-        _react2.default.createElement(
-          'p',
-          null,
-          'Description: ',
-          this.props.user.description
-        )
-      );
+      if (this.state.isEditing) return this.renderForm();else return this.renderNormal();
     }
   }]);
 
@@ -22414,9 +22519,15 @@ var UserList = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
-        'ul',
-        null,
-        this.createListItems()
+        'div',
+        { className: 'userList' },
+        _react2.default.createElement(
+          'ul',
+          null,
+          ' ',
+          this.createListItems(),
+          ' '
+        )
       );
     }
   }]);
@@ -22469,7 +22580,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: store },
   _react2.default.createElement(_App2.default, null)
-), document.getElementById('container'));
+), document.getElementById('content'));
 
 },{"./components/App":196,"./reducers/index":200,"react":185,"react-dom":35,"react-redux":38,"redux":191}],200:[function(require,module,exports){
 'use strict';
@@ -22530,7 +22641,7 @@ exports.default = function () {
     last: "Roberts",
     age: 23,
     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, totam.",
-    thumbnail: "http://localhost:3000/assets/img/react.png"
+    thumbnail: "http://localhost:3000/assets/img/react2.png"
   }, {
     id: 2,
     first: "Juan David",
@@ -22540,11 +22651,11 @@ exports.default = function () {
     thumbnail: "http://localhost:3000/assets/img/react.png"
   }, {
     id: 3,
-    first: "Jorge",
-    last: "Enrique",
+    first: "Jorge Enrique",
+    last: "Castro",
     age: 50,
     description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, totam.",
-    thumbnail: "http://localhost:3000/assets/img/react.png"
+    thumbnail: "http://localhost:3000/assets/img/react3.png"
   }];
 };
 

@@ -16,9 +16,9 @@ class UserList extends Component {
   }
 
   render () {
-    return ( <ul> 
-      { this.createListItems() }
-    </ul> )
+    return ( <div className="userList">
+      <ul> { this.createListItems() } </ul>
+    </div> )
   }
 }
 

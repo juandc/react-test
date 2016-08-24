@@ -6,7 +6,7 @@ export default function () {
       last: "Roberts",
       age: 23,
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, totam.",
-      thumbnail: "http://localhost:3000/assets/img/react.png"
+      thumbnail: "http://localhost:3000/assets/img/react2.png"
     },
     {
       id: 2,
@@ -18,11 +18,11 @@ export default function () {
     },
     {
       id: 3,
-      first: "Jorge",
-      last: "Enrique",
+      first: "Jorge Enrique",
+      last: "Castro",
       age: 50,
       description: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laudantium, totam.",
-      thumbnail: "http://localhost:3000/assets/img/react.png"
+      thumbnail: "http://localhost:3000/assets/img/react3.png"
     }
   ]
 }
